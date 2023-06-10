@@ -1,5 +1,5 @@
 local options = {
-    attach_navic = false,
+	attach_navic = false,
 }
 
 return options

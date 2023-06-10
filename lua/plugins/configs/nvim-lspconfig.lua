@@ -22,18 +22,17 @@ M.on_attach = function(client, bufnr)
 	client.server_capabilities.typeDefinitionProvider = true
 	client.server_capabilities.implementationProvider = true
 	client.server_capabilities.colorProvider = true
-	
 
 	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
 	end
 
 	-- Enable Treesitter featuresff
-	cmd.TSBufEnable('highlight')
-	cmd.TSBufEnable('indent')
-	cmd.TSBufEnable('query_linter')
-	cmd.TSBufEnable('incremental_selection')
-	cmd.TSBufEnable('playground')
+	cmd.TSBufEnable("highlight")
+	cmd.TSBufEnable("indent")
+	cmd.TSBufEnable("query_linter")
+	cmd.TSBufEnable("incremental_selection")
+	cmd.TSBufEnable("playground")
 
 	-- Enable LSP status
 	-- lsp_status.register_progress()

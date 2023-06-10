@@ -34,29 +34,29 @@ plugins = {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter", -- Syntax highlighting
-        dependencies = {
-            "nvim-treesitter/playground",
-        },
+		dependencies = {
+			"nvim-treesitter/playground",
+		},
 		ensure_installed = "maintained",
 		cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 		build = ":TSUpdate",
-        opts = function()
-            return require("plugins.configs.nvim-treesitter")
-        end,
-        config = function(_, opts)
-            require("nvim-treesitter").setup(opts)
+		opts = function()
+			return require("plugins.configs.nvim-treesitter")
+		end,
+		config = function(_, opts)
+			require("nvim-treesitter").setup(opts)
 			-- cmd.TSBufEnable('highlight')
 			-- configure treesitter to enable highlighting for all filetypes globally
 			-- cmd.TSBufEnable('highlight')
 			-- cmd.TSBufEnable('indent')
 			-- cmd.TSBufEnable('ensure_installed')
-        end,
+		end,
 	},
 	{
 		"nvim-tree/nvim-tree.lua", -- File explorer
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-        },
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
 		cmd = {
 			"NvimTreeToggle",
 			"NvimTreeFindFile",
@@ -77,15 +77,15 @@ plugins = {
 		dependencies = {
 			"nvim-lua/popup.nvim",
 			"nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons",
+			"nvim-tree/nvim-web-devicons",
 		},
-        cmd = { "Telescope" },
-        opts = function()
-            return require("plugins.configs.telescope")
-        end,
-        config = function(_, opts)
-            require("telescope").setup(opts)
-        end,
+		cmd = { "Telescope" },
+		opts = function()
+			return require("plugins.configs.telescope")
+		end,
+		config = function(_, opts)
+			require("telescope").setup(opts)
+		end,
 	},
 	{
 		"neovim/nvim-lspconfig", -- LSP
@@ -106,16 +106,16 @@ plugins = {
 	},
 	{
 		"williamboman/mason.nvim", -- Build tool
-        cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
+		cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
 		opts = function()
 			return require("plugins.configs.mason")
 		end,
 		config = function(_, opts)
 			require("mason").setup(opts)
-            vim.api.nvim_create_user_command("MasonInstallAll", function()
-                vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
-            end, {})
-            vim.g.mason_binaries_list = opts.ensure_installed
+			vim.api.nvim_create_user_command("MasonInstallAll", function()
+				vim.cmd("MasonInstall " .. table.concat(opts.ensure_installed, " "))
+			end, {})
+			vim.g.mason_binaries_list = opts.ensure_installed
 		end,
 	},
 	{
@@ -170,14 +170,14 @@ plugins = {
 		end,
 	},
 	{
-		'hrsh7th/nvim-cmp', -- Autocompletion
+		"hrsh7th/nvim-cmp", -- Autocompletion
 		dependencies = {
-			'hrsh7th/cmp-buffer',
-			'hrsh7th/cmp-nvim-lsp',
-			'hrsh7th/cmp-path',
-			'hrsh7th/cmp-nvim-lua',
-			'saadparwaiz1/cmp_luasnip',
-			'onsails/lspkind-nvim',
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
+			"hrsh7th/cmp-nvim-lua",
+			"saadparwaiz1/cmp_luasnip",
+			"onsails/lspkind-nvim",
 		},
 		event = { "InsertEnter" },
 		opts = function()
@@ -198,18 +198,18 @@ plugins = {
 	-- 	end,
 	-- },
 	{
-		'github/copilot.vim', -- Copilot
+		"github/copilot.vim", -- Copilot
 		event = { "BufRead", "BufNewFile", "LspAttach" },
 		config = function()
 			require("plugins.configs.copilot")
 		end,
 	},
 	{
-		'romgrk/barbar.nvim', -- Bufferline
+		"romgrk/barbar.nvim", -- Bufferline
 		event = { "BufRead", "BufNewFile" },
 		dependencies = {
-			'lewis6991/gitsigns.nvim',
-			'nvim-tree/nvim-web-devicons',
+			"lewis6991/gitsigns.nvim",
+			"nvim-tree/nvim-web-devicons",
 		},
 		init = function()
 			g.barbar_auto_setup = false
@@ -222,11 +222,11 @@ plugins = {
 		end,
 	},
 	{
-		'utilyre/barbecue.nvim', -- Statusline
+		"utilyre/barbecue.nvim", -- Statusline
 		event = { "BufRead", "BufNewFile", "LspAttach" },
 		dependencies = {
-			'SmiteshP/nvim-navic',
-			'nvim-tree/nvim-web-devicons',
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
 		},
 		opts = function()
 			return require("plugins.configs.barbecue")
@@ -236,10 +236,10 @@ plugins = {
 		end,
 	},
 	{
-		'nvim-lualine/lualine.nvim', -- Statusline
+		"nvim-lualine/lualine.nvim", -- Statusline
 		event = { "VimEnter" },
 		dependencies = {
-			'nvim-tree/nvim-web-devicons',
+			"nvim-tree/nvim-web-devicons",
 		},
 		opts = function()
 			return require("plugins.configs.lualine")
@@ -249,8 +249,8 @@ plugins = {
 		end,
 	},
 	{
-		'glepnir/lspsaga.nvim', -- LSP UI
-		event = { 'LspAttach' },
+		"glepnir/lspsaga.nvim", -- LSP UI
+		event = { "LspAttach" },
 		dependencies = {
 			{ "nvim-tree/nvim-web-devicons" },
 			--Please make sure you install markdown and markdown_inline parser

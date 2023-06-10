@@ -32,19 +32,19 @@ local options = {
 	filters = {
 		dotfiles = false,
 	},
-    view = {
-      adaptive_size = false,
-      side = "left",
-      width = 30,
-      preserve_window_proportions = true,
-    },
-    filesystem_watchers = {
-      enable = true,
-    },
-    git = {
-      enable = false,
-      ignore = true,
-    },
+	view = {
+		adaptive_size = false,
+		side = "left",
+		width = 30,
+		preserve_window_proportions = true,
+	},
+	filesystem_watchers = {
+		enable = true,
+	},
+	git = {
+		enable = false,
+		ignore = true,
+	},
 }
 
 return options
