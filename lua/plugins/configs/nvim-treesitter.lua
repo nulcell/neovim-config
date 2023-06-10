@@ -37,6 +37,7 @@ local options = {
         "toml",
         "yaml",
         "markdown",
+        "markdown_inline",
         "makefile",
     },
     auto_install = true,

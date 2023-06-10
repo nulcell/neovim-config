@@ -37,6 +37,7 @@ plugins = {
         dependencies = {
             "nvim-treesitter/playground",
         },
+		ensure_installed = "maintained",
 		cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
 		build = ":TSUpdate",
         opts = function()
@@ -44,7 +45,11 @@ plugins = {
         end,
         config = function(_, opts)
             require("nvim-treesitter").setup(opts)
-			cmd.TSBufEnable('highlight')
+			-- cmd.TSBufEnable('highlight')
+			-- configure treesitter to enable highlighting for all filetypes globally
+			-- cmd.TSBufEnable('highlight')
+			-- cmd.TSBufEnable('indent')
+			-- cmd.TSBufEnable('ensure_installed')
         end,
 	},
 	{
@@ -182,16 +187,16 @@ plugins = {
 			require("cmp").setup(opts)
 		end,
 	},
-	{
-		'nvim-lua/lsp-status.nvim', -- LSP status
-		dependencies = {
-			'folke/lsp-colors.nvim',
-		},
-		event = { "BufRead", "BufNewFile" },
-		config = function()
-			require("plugins.configs.lsp-status")
-		end,
-	},
+	-- {
+	-- 	'nvim-lua/lsp-status.nvim', -- LSP status
+	-- 	dependencies = {
+	-- 		'folke/lsp-colors.nvim',
+	-- 	},
+	-- 	event = { "BufRead", "BufNewFile" },
+	-- 	config = function()
+	-- 		require("plugins.configs.lsp-status")
+	-- 	end,
+	-- },
 	{
 		'github/copilot.vim', -- Copilot
 		event = { "BufRead", "BufNewFile", "LspAttach" },
@@ -241,6 +246,21 @@ plugins = {
 		end,
 		config = function(_, opts)
 			require("lualine").setup(opts)
+		end,
+	},
+	{
+		'glepnir/lspsaga.nvim', -- LSP UI
+		event = { 'LspAttach' },
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons" },
+			--Please make sure you install markdown and markdown_inline parser
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+		opts = function()
+			return require("plugins.configs.lspsaga")
+		end,
+		config = function(_, opts)
+			require("lspsaga").setup(opts)
 		end,
 	},
 }

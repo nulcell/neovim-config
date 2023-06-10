@@ -1,42 +1,52 @@
 local M = {}
 local keymap = vim.keymap
-local lsp_status = require('lsp-status')
+local cmd = vim.cmd
+-- local lsp_status = require('lsp-status')
 
 M.on_attach = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
 
+	-- Set autocommands conditional on server_capabilities (testing)
+	client.server_capabilities.documentSymbolProvider = true
+	client.server_capabilities.documentHighlightProvider = true
+	client.server_capabilities.declarationProvider = true
+	client.server_capabilities.workspaceSymbolProvider = true
+	client.server_capabilities.codeActionProvider = true
+	client.server_capabilities.codeLensProvider = true
+	client.server_capabilities.documentFormattingProvider = true
+	client.server_capabilities.documentRangeFormattingProvider = true
+	client.server_capabilities.documentOnTypeFormattingProvider = true
+	client.server_capabilities.renameProvider = true
+	client.server_capabilities.documentLinkProvider = true
+	client.server_capabilities.typeDefinitionProvider = true
+	client.server_capabilities.implementationProvider = true
+	client.server_capabilities.colorProvider = true
+	
+
 	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
 	end
 
-	-- Enable LSP status
-	lsp_status.register_progress()
-	lsp_status.config({
-		status_symbol = '',
-		indicator_errors = 'E',
-		indicator_warnings = 'W',
-		indicator_info = 'I',
-		indicator_hint = 'H',
-		indicator_ok = 'Ok',
-	})
-	lsp_status.on_attach(client)
-	lsp_status.status()
+	-- Enable Treesitter featuresff
+	cmd.TSBufEnable('highlight')
+	cmd.TSBufEnable('indent')
+	cmd.TSBufEnable('query_linter')
+	cmd.TSBufEnable('incremental_selection')
+	cmd.TSBufEnable('playground')
 
-	-- LSP
-	keymap.set("n", "gd", ":lua vim.lsp.buf.definition()<CR>") -- Go to definition
-	keymap.set("n", "gD", ":lua vim.lsp.buf.declaration()<CR>") -- Go to declaration
-	keymap.set("n", "gi", ":lua vim.lsp.buf.implementation()<CR>") -- Go to implementation
-	keymap.set("n", "gr", ":lua vim.lsp.buf.references()<CR>") -- Go to references
-	keymap.set("n", "K", ":lua vim.lsp.buf.hover()<CR>") -- Show hover
-	keymap.set("n", "<C-k>", ":lua vim.lsp.buf.signature_help()<CR>") -- Show signature help
-	keymap.set("n", "<leader>rn", ":lua vim.lsp.buf.rename()<CR>") -- Rename
-	keymap.set("n", "<leader>ca", ":lua vim.lsp.buf.code_action()<CR>") -- Code action
-	keymap.set("n", "<leader>cd", ":lua vim.lsp.diagnostic.show_line_diagnostics()<CR>") -- Show line diagnostics
-	keymap.set("n", "[d", ":lua vim.lsp.diagnostic.goto_prev()<CR>") -- Go to previous diagnostic
-	keymap.set("n", "]d", ":lua vim.lsp.diagnostic.goto_next()<CR>") -- Go to next diagnostic
-	keymap.set("n", "<leader>q", ":lua vim.lsp.diagnostic.set_loclist()<CR>") -- Set loclist
-	keymap.set("n", "<leader>fm", ":lua vim.lsp.buf.formatting()<CR>") -- Format
+	-- Enable LSP status
+	-- lsp_status.register_progress()
+	-- lsp_status.config({
+	-- 	status_symbol = '',
+	-- 	indicator_errors = 'E',
+	-- 	indicator_warnings = 'W',
+	-- 	indicator_info = 'I',
+	-- 	indicator_hint = 'H',
+	-- 	indicator_ok = 'Ok',
+	-- })
+	-- lsp_status.on_attach(client)
+	-- lsp_status.status()
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -49,6 +59,8 @@ M.capabilities.textDocument.completion.completionItem = {
 	labelDetailsSupport = true,
 	deprecatedSupport = true,
 	commitCharactersSupport = true,
+	-- highlightSupport = true,
+	-- renameSupport = true,
 	tagSupport = { valueSet = { 1 } },
 	resolveSupport = {
 		properties = {
@@ -61,7 +73,6 @@ M.capabilities.textDocument.completion.completionItem = {
 
 require("lspconfig").lua_ls.setup({
 	on_attach = M.on_attach,
-	capabilities = M.capabilities,
 
 	settings = {
 		Lua = {
@@ -84,7 +95,7 @@ require("lspconfig").lua_ls.setup({
 require("lspconfig").docker_compose_language_service.setup({
 	on_attach = M.on_attach,
 	capabilities = M.capabilities,
-	cmd = { "docker-compose-langserver", "--stdio" },
+	-- cmd = { "docker-compose-langserver", "--stdio" },
 	filetypes = { "docker-compose", "yaml" },
 	root_pattern = "%docker-compose%.yml",
 	single_file_support = true,
@@ -93,7 +104,7 @@ require("lspconfig").docker_compose_language_service.setup({
 require("lspconfig").dockerls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.capabilities,
-	cmd = { "docker-langserver", "--stdio" },
+	-- cmd = { "docker-langserver", "--stdio" },
 	filetypes = { "Dockerfile", "dockerfile" },
 	root_dir = require("lspconfig/util").root_pattern(".git") or vim.loop.cwd,
 	single_file_support = true,
@@ -102,7 +113,7 @@ require("lspconfig").dockerls.setup({
 require("lspconfig").bashls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.capabilities,
-	cmd = { "bash-language-server", "start" },
+	-- cmd = { "bash-language-server", "start" },
 	filetypes = { "sh", "zsh" },
 	root_dir = require("lspconfig/util").root_pattern(".git") or vim.loop.cwd,
 	single_file_support = true,
@@ -133,7 +144,7 @@ require("lspconfig").yamlls.setup({
 require("lspconfig").jsonls.setup({
 	on_attach = M.on_attach,
 	capabilities = M.capabilities,
-	cmd = { "vscode-json-languageserver", "--stdio" },
+	-- cmd = { "vscode-json-languageserver", "--stdio" },
 	filetypes = { "json", "jsonc" },
 	init_options = {
 		provideFormatter = true,
@@ -151,7 +162,7 @@ require("lspconfig").jsonls.setup({
 require("lspconfig").pyright.setup({
 	on_attach = M.on_attach,
 	capabilities = M.capabilities,
-	cmd = { "pyright-langserver", "--stdio" },
+	-- cmd = { "pyright-langserver", "--stdio" },
 	filetypes = { "python" },
 	single_file_support = true,
 	settings = {
