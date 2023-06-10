@@ -230,6 +230,19 @@ plugins = {
 			require("barbecue").setup(opts)
 		end,
 	},
+	{
+		'nvim-lualine/lualine.nvim', -- Statusline
+		event = { "VimEnter" },
+		dependencies = {
+			'nvim-tree/nvim-web-devicons',
+		},
+		opts = function()
+			return require("plugins.configs.lualine")
+		end,
+		config = function(_, opts)
+			require("lualine").setup(opts)
+		end,
+	},
 }
 
 -- Configure plugins with lazy loading

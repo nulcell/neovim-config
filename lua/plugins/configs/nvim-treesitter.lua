@@ -40,6 +40,7 @@ local options = {
         "makefile",
     },
     auto_install = true,
+    sync_install = false,
 }
 
 return options
