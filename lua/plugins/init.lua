@@ -1,114 +1,151 @@
 -- Select plugins to load and configure them
 plugins = {
-    {
-        'folke/tokyonight.nvim', -- Color scheme
-        lazy = false,
-        priority = 1000, -- Load this first
-        config = function()
-            vim.g.tokyonight_style = "night" -- night, storm, day
-            vim.g.tokyonight_italic_functions = true -- Make functions italic
-            vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" } -- Make sidebars darker
-            vim.g.tokyonight_dark_sidebar = true -- Make sidebar darker
-            vim.g.tokyonight_dark_float = true -- Make float darker
-            vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" } -- Customize colors
-            vim.cmd[[colorscheme tokyonight]] -- Set the colorscheme
-        end,
-    },
-    {
-        'folke/which-key.nvim', -- Keybindings
-        config = function()
-            require('which-key').setup{}
-        end,
-    },
-    {
-        'nvim-treesitter/nvim-treesitter', -- Syntax highlighting
-        cmd = { 'TSUpdate', 'TSInstall' },
-        build = ':TSUpdate', -- Build on install
-    },
-    {
-        'nvim-treesitter/playground', -- Treesitter playground
-    },
-    {
-        'nvim-tree/nvim-tree.lua', -- File explorer
-    },
-    {
-        'nvim-tree/nvim-web-devicons', -- File explorer icons
-    },
-    {
-        'nvim-telescope/telescope.nvim', -- Fuzzy finder
+	{
+		"folke/tokyonight.nvim", -- Color scheme
+		lazy = false,
+		priority = 1000, -- Load this first
+		config = function()
+			vim.g.tokyonight_style = "night" -- night, storm, day
+			vim.g.tokyonight_italic_functions = true -- Make functions italic
+			vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" } -- Make sidebars darker
+			vim.g.tokyonight_dark_sidebar = true -- Make sidebar darker
+			vim.g.tokyonight_dark_float = true -- Make float darker
+			vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" } -- Customize colors
+			vim.cmd([[colorscheme tokyonight]]) -- Set the colorscheme
+		end,
+	},
+	{
+		"folke/which-key.nvim", -- Keybindings
+		config = function()
+			require("which-key").setup({})
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter", -- Syntax highlighting
         dependencies = {
-            'nvim-lua/popup.nvim', -- Dependency for telescope
-            'nvim-lua/plenary.nvim', -- Dependency for telescope
+            "nvim-treesitter/playground",
         },
-    },
-    {
-        'neovim/nvim-lspconfig', -- LSP
-    },
-    {
-        'williamboman/mason.nvim', -- Build tool
-        cmd = { 'Mason', 'MasonInstall', 'MasonInstallAll', 'MasonUninstall', 'MasonUninstallAll', 'MasonLog' },
-    },
-    {
-        'lewis6991/gitsigns.nvim', -- Git signs
-        ft = { 'gitcommit', 'gitrebase' },
-        event = { 'BufRead', 'BufNewFile' },
-        config = function()
-            require('gitsigns').setup()
+		cmd = { "TSUpdate", "TSInstall" },
+		build = ":TSUpdate", -- Build on install
+        opts = function()
+            return require("plugins.configs.nvim-treesitter")
         end,
-    },
-    {
-        'akinsho/nvim-toggleterm.lua', -- Terminal
-        cmd = { 'ToggleTerm', 'ToggleTermOpenAll', 'ToggleTermCloseAll' },
-        config = function()
-            require("toggleterm").setup{
-                size = 20,
-                open_mapping = [[<c-\>]],
-                shade_filetypes = {},
-                shade_terminals = true,
-                shading_factor = 1,
-                start_in_insert = true,
-                insert_mappings = true,
-                persist_size = true,
-                direction = 'horizontal',
-            }
+        config = function(_, opts)
+            require("nvim-treesitter").setup(opts)
         end,
-    },
-    {
-        'windwp/nvim-autopairs', -- Autopairs
-        config = function()
-            require('nvim-autopairs').setup{}
+	},
+	{
+		"nvim-tree/nvim-tree.lua", -- File explorer
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+        },
+		cmd = {
+			"NvimTreeToggle",
+			"NvimTreeFindFile",
+			"NvimTreeFocus",
+			"NvimTreeRefresh",
+			"NvimTreeOpen",
+		},
+		opts = function()
+			return require("plugins.configs.nvim-tree")
+		end,
+		config = function(_, opts)
+			require("nvim-tree").setup(opts)
+		end,
+	},
+	{
+		"nvim-telescope/telescope.nvim", -- Fuzzy finder
+		dependencies = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons",
+		},
+        cmd = { "Telescope" },
+        opts = function()
+            return require("plugins.configs.telescope")
         end,
-    },
-    {
-        'norcalli/nvim-colorizer.lua', -- Colorizer
-        config = function()
-            require('colorizer').setup()
+        config = function(_, opts)
+            require("telescope").setup(opts)
         end,
-    },
-    {
-        'folke/todo-comments.nvim', -- Todo comments
-        config = function()
-            require('todo-comments').setup{}
-        end,
-    },
-    {
-        'folke/trouble.nvim', -- LSP diagnostics
-        cmd = { 'Trouble', 'TroubleToggle', 'TroubleClose' },
-    },
-    {
-        'folke/zen-mode.nvim', -- Zen mode
-        cmd = { 'ZenMode', 'ZenModeToggle' },
-    },
-    {
-        'folke/twilight.nvim', -- Focus mode
-        cmd = { 'Twilight', 'TwilightEnable', 'TwilightDisable' },
-    },
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        config = function()
-            require("indent_blankline").setup{}
-        end,
-    },
+	},
+	{
+		"neovim/nvim-lspconfig", -- LSP
+		dependencies = {
+			{
+				"b0o/schemastore.nvim",
+			},
+			{
+				"jose-elias-alvarez/null-ls.nvim", -- Null LSP
+				config = function()
+					require("plugins.configs.null-ls")
+				end,
+			},
+		},
+		config = function()
+			require("plugins.configs.nvim-lspconfig")
+		end,
+	},
+	{
+		"williamboman/mason.nvim", -- Build tool
+		build = ":MasonInstall",
+		opts = function()
+			return require("plugins.configs.mason")
+		end,
+		config = function(_, opts)
+			require("mason").setup(opts)
+		end,
+	},
+	{
+		"lewis6991/gitsigns.nvim", -- Git signs
+		ft = { "gitcommit", "gitrebase" },
+		event = { "BufRead", "BufNewFile" },
+		opts = function()
+			return require("plugins.configs.gitsigns")
+		end,
+		config = function(_, opts)
+			require("gitsigns").setup(opts)
+		end,
+	},
+	{
+		"akinsho/nvim-toggleterm.lua", -- Terminal
+		cmd = { "ToggleTerm", "ToggleTermOpenAll", "ToggleTermCloseAll" },
+		opts = function()
+			return require("plugins.configs.nvim-toggleterm")
+		end,
+		config = function(_, opts)
+			require("toggleterm").setup(opts)
+		end,
+	},
+	{
+		"windwp/nvim-autopairs",
+		opts = function()
+			return require("plugins.configs.nvim-autopairs")
+		end,
+		config = function(_, opts)
+			require("nvim-autopairs").setup(opts)
+		end,
+	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
+	{
+		"folke/todo-comments.nvim", -- Todo comments
+		config = function()
+			require("todo-comments").setup({})
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		opts = function()
+			return require("plugins.configs.indent-blankline")
+		end,
+		config = function(_, opts)
+			require("indent_blankline").setup(opts)
+		end,
+	},
 }
 
 -- Configure plugins with lazy loading

@@ -37,6 +37,51 @@ keymap.set('n', '<C-w>c', ':close<CR>') -- Close window
 keymap.set('n', '<leader>h', ':set hlsearch!<CR>') -- Toggle search highlight
 keymap.set('n', '<leader>/', ':nohlsearch<CR>') -- Clear highlights
 
+-- Buffer
+keymap.set('n', '<leader>bd', ':bd<CR>') -- Delete buffer
+keymap.set('n', '<leader>bn', ':bn<CR>') -- Next buffer
+keymap.set('n', '<leader>bp', ':bp<CR>') -- Previous buffer
+keymap.set('n', '<leader>bl', ':ls<CR>') -- List buffers
+
+-- Git
+keymap.set('n', '<leader>gs', ':Git<CR>') -- Git status
+keymap.set('n', '<leader>gc', ':Git commit<CR>') -- Git commit
+keymap.set('n', '<leader>gp', ':Git push<CR>') -- Git push
+keymap.set('n', '<leader>gP', ':Git pull<CR>') -- Git pull
+
+-- NvimTree
+keymap.set('n', '<leader>nt', ':NvimTreeToggle<CR>') -- Toggle NvimTree
+keymap.set('n', '<leader>nr', ':NvimTreeRefresh<CR>') -- Refresh NvimTree
+keymap.set('n', '<leader>nf', ':NvimTreeFindFile<CR>') -- Find file in NvimTree
+keymap.set('n', '<leader>nf', ':NvimTreeFocus<CR>') -- Focus on NvimTree
+keymap.set('n', '<leader>no', ':NvimTreeOpen<CR>') -- Open NvimTree
+keymap.set('n', '<leader>nc', ':NvimTreeClose<CR>') -- Close NvimTree
+
+-- GitSigns
+keymap.set('n', '<leader>hs', ':Gitsigns stage_hunk<CR>') -- Stage hunk
+keymap.set('n', '<leader>hu', ':Gitsigns undo_stage_hunk<CR>') -- Undo stage hunk
+keymap.set('n', '<leader>hr', ':Gitsigns reset_hunk<CR>') -- Reset hunk
+keymap.set('n', '<leader>hp', ':Gitsigns preview_hunk<CR>') -- Preview hunk
+keymap.set('n', '<leader>hb', ':Gitsigns blame_line<CR>') -- Blame line
+keymap.set('n', '<leader>hS', ':Gitsigns stage_buffer<CR>') -- Stage buffer
+keymap.set('n', '<leader>hU', ':Gitsigns reset_buffer<CR>') -- Reset buffer
+
+-- Toggleterm
+keymap.set('n', '<leader>tt', ':ToggleTerm<CR>') -- Toggle terminal
+keymap.set('t', '<Esc>', '<C-\\><C-n>') -- Exit terminal
+
+-- Telescope
+keymap.set('n', '<leader>ff', ':Telescope find_files<CR>') -- Find files
+keymap.set('n', '<leader>fg', ':Telescope live_grep<CR>') -- Live grep
+keymap.set('n', '<leader>fb', ':Telescope buffers<CR>') -- Find buffers
+keymap.set('n', '<leader>fh', ':Telescope help_tags<CR>') -- Find help tags
+keymap.set('n', '<leader>fs', ':Telescope git_status<CR>') -- Find git status
+keymap.set('n', '<leader>fc', ':Telescope git_commits<CR>') -- Find git commits
+keymap.set('n', '<leader>fd', ':Telescope git_bcommits<CR>') -- Find git buffer commits
+keymap.set('n', '<leader>ft', ':Telescope git_stash<CR>') -- Find git stash
+keymap.set('n', '<leader>fn', ':Telescope git_branches<CR>') -- Find git branches
+keymap.set('n', '<leader>fq', ':Telescope quickfix<CR>') -- Find quickfix
+
 ----------- Visual mode -----------
 
 ----------- Terminal mode -----------

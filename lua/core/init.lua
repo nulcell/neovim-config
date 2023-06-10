@@ -54,8 +54,8 @@ opt.relativenumber = false -- Show relative line numbers
 opt.numberwidth = 3 -- Set number column width {default 4}
 
 -- Backups
-opt.swapfile = true -- Enable/disable swap file
-opt.backup = true -- Enable/disable backup
+opt.swapfile = false -- Enable/disable swap file
+opt.backup = false -- Enable/disable backup
 opt.undofile = true -- Enable/disable undo file
 opt.undodir = vim.fn.expand('~/.config/nvim/tmp/undodir') -- Set undo directory
 
