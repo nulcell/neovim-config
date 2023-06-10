@@ -14,7 +14,6 @@ local options = {
 		"markdownlint",
 		"terraform-ls",
 		"json-lsp",
-		"json-ls",
 		"dockerfile-language-server",
 		"bash-language-server",
 	},
