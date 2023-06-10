@@ -1,9 +1,27 @@
 local M = {}
 local keymap = vim.keymap
+local lsp_status = require('lsp-status')
 
 M.on_attach = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
+
+	if client.server_capabilities.documentSymbolProvider then
+		require("nvim-navic").attach(client, bufnr)
+	end
+
+	-- Enable LSP status
+	lsp_status.register_progress()
+	lsp_status.config({
+		status_symbol = '',
+		indicator_errors = 'E',
+		indicator_warnings = 'W',
+		indicator_info = 'I',
+		indicator_hint = 'H',
+		indicator_ok = 'Ok',
+	})
+	lsp_status.on_attach(client)
+	lsp_status.status()
 
 	-- LSP
 	keymap.set("n", "gd", ":lua vim.lsp.buf.definition()<CR>") -- Go to definition

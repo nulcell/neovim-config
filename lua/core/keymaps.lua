@@ -82,6 +82,8 @@ keymap.set('n', '<leader>ft', ':Telescope git_stash<CR>') -- Find git stash
 keymap.set('n', '<leader>fn', ':Telescope git_branches<CR>') -- Find git branches
 keymap.set('n', '<leader>fq', ':Telescope quickfix<CR>') -- Find quickfix
 
+-- cmp
+
 ----------- Visual mode -----------
 
 ----------- Terminal mode -----------

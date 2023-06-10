@@ -1,3 +1,6 @@
+local g = vim.g
+local cmd = vim.cmd
+
 -- Select plugins to load and configure them
 plugins = {
 	{
@@ -14,6 +17,15 @@ plugins = {
 			vim.cmd([[colorscheme tokyonight]]) -- Set the colorscheme
 		end,
 	},
+	-- {
+	-- 	"catppuccin/nvim", -- Color scheme
+	-- 	lazy = false,
+	-- 	priority = 1000, -- Load this first
+	-- 	name = "catppuccin",
+	-- 	config = function()
+	-- 		require("plugins.configs.catppuccin")
+	-- 	end,
+	-- },
 	{
 		"folke/which-key.nvim", -- Keybindings
 		config = function()
@@ -25,13 +37,14 @@ plugins = {
         dependencies = {
             "nvim-treesitter/playground",
         },
-		cmd = { "TSUpdate", "TSInstall" },
-		build = ":TSUpdate", -- Build on install
+		cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+		build = ":TSUpdate",
         opts = function()
             return require("plugins.configs.nvim-treesitter")
         end,
         config = function(_, opts)
             require("nvim-treesitter").setup(opts)
+			cmd.TSBufEnable('highlight')
         end,
 	},
 	{
@@ -51,6 +64,7 @@ plugins = {
 		end,
 		config = function(_, opts)
 			require("nvim-tree").setup(opts)
+			vim.g.nvimtree_side = opts.view.side
 		end,
 	},
 	{
@@ -148,6 +162,72 @@ plugins = {
 		end,
 		config = function(_, opts)
 			require("indent_blankline").setup(opts)
+		end,
+	},
+	{
+		'hrsh7th/nvim-cmp', -- Autocompletion
+		dependencies = {
+			'hrsh7th/cmp-buffer',
+			'hrsh7th/cmp-nvim-lsp',
+			'hrsh7th/cmp-path',
+			'hrsh7th/cmp-nvim-lua',
+			'saadparwaiz1/cmp_luasnip',
+			'onsails/lspkind-nvim',
+		},
+		event = { "InsertEnter" },
+		opts = function()
+			return require("plugins.configs.nvim-cmp")
+		end,
+		config = function(_, opts)
+			require("cmp").setup(opts)
+		end,
+	},
+	{
+		'nvim-lua/lsp-status.nvim', -- LSP status
+		dependencies = {
+			'folke/lsp-colors.nvim',
+		},
+		event = { "BufRead", "BufNewFile" },
+		config = function()
+			require("plugins.configs.lsp-status")
+		end,
+	},
+	{
+		'github/copilot.vim', -- Copilot
+		event = { "BufRead", "BufNewFile", "LspAttach" },
+		config = function()
+			require("plugins.configs.copilot")
+		end,
+	},
+	{
+		'romgrk/barbar.nvim', -- Bufferline
+		event = { "BufRead", "BufNewFile" },
+		dependencies = {
+			'lewis6991/gitsigns.nvim',
+			'nvim-tree/nvim-web-devicons',
+		},
+		init = function()
+			g.barbar_auto_setup = false
+		end,
+		opts = function()
+			return require("plugins.configs.barbar")
+		end,
+		config = function(_, opts)
+			require("barbar").setup(opts)
+		end,
+	},
+	{
+		'utilyre/barbecue.nvim', -- Statusline
+		event = { "BufRead", "BufNewFile", "LspAttach" },
+		dependencies = {
+			'SmiteshP/nvim-navic',
+			'nvim-tree/nvim-web-devicons',
+		},
+		opts = function()
+			return require("plugins.configs.barbecue")
+		end,
+		config = function(_, opts)
+			require("barbecue").setup(opts)
 		end,
 	},
 }

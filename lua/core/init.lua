@@ -66,7 +66,7 @@ opt.hlsearch = true -- Highlight search results
 opt.incsearch = true -- Incremental search
 
 -- Completion
-opt.completeopt = 'menuone,noselect' -- Completion options
+opt.completeopt = 'menu,menuone,noselect' -- Completion options
 
 -- Wildmenu (command-line completion)
 -- opt.wildmenu = true -- Enable wildmenu

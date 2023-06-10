@@ -39,6 +39,7 @@ local options = {
         "markdown",
         "makefile",
     },
+    auto_install = true,
 }
 
 return options
