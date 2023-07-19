@@ -4,29 +4,29 @@ local cmd = vim.cmd
 
 -- Select plugins to load and configure them
 plugins = {
+  -- {
+  --   "folke/tokyonight.nvim",                                                -- Color scheme
+  --   lazy = false,
+  --   priority = 1000,                                                        -- Load this first
+  --   config = function()
+  --     vim.g.tokyonight_style = "night"                                      -- night, storm, day
+  --     vim.g.tokyonight_italic_functions = true                              -- Make functions italic
+  --     vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" } -- Make sidebars darker
+  --     vim.g.tokyonight_dark_sidebar = true                                  -- Make sidebar darker
+  --     vim.g.tokyonight_dark_float = true                                    -- Make float darker
+  --     vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }      -- Customize colors
+  --     vim.cmd([[colorscheme tokyonight]])                                   -- Set the colorscheme
+  --   end,
+  -- },
   {
-    "folke/tokyonight.nvim",                                                -- Color scheme
+    "catppuccin/nvim", -- Color scheme
     lazy = false,
-    priority = 1000,                                                        -- Load this first
+    priority = 1000, -- Load this first
+    name = "catppuccin",
     config = function()
-      vim.g.tokyonight_style = "night"                                      -- night, storm, day
-      vim.g.tokyonight_italic_functions = true                              -- Make functions italic
-      vim.g.tokyonight_sidebars = { "qf", "vista_kind", "terminal", "packer" } -- Make sidebars darker
-      vim.g.tokyonight_dark_sidebar = true                                  -- Make sidebar darker
-      vim.g.tokyonight_dark_float = true                                    -- Make float darker
-      vim.g.tokyonight_colors = { hint = "orange", error = "#ff0000" }      -- Customize colors
-      vim.cmd([[colorscheme tokyonight]])                                   -- Set the colorscheme
+      require("plugins.configs.catppuccin")
     end,
   },
-  -- {
-  -- 	"catppuccin/nvim", -- Color scheme
-  -- 	lazy = false,
-  -- 	priority = 1000, -- Load this first
-  -- 	name = "catppuccin",
-  -- 	config = function()
-  -- 		require("plugins.configs.catppuccin")
-  -- 	end,
-  -- },
   {
     "folke/which-key.nvim", -- Keybindings
     config = function()
