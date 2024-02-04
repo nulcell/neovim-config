@@ -167,7 +167,8 @@ plugins = {
       return require("plugins.configs.indent-blankline")
     end,
     config = function(_, opts)
-      require("indent_blankline").setup(opts)
+      require("ibl").setup({})
+      -- require("indent_blankline").setup(opts)
     end,
   },
   {
