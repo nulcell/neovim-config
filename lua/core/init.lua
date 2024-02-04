@@ -22,7 +22,7 @@ opt.background = "dark"  -- Tell vim what the background color looks like
 
 -- Cursor
 opt.cursorline = true              -- Enable highlighting of the current line
-opt.cursorcolumn = fasle           -- Enable highlighting of the current column
+opt.cursorcolumn = false           -- Enable highlighting of the current column
 opt.backspace = "indent,eol,start" -- Make backspace behave like every other editor
 -- opt.colorcolumn = '120' -- Line length marker
 opt.mouse = "a"                    -- Enable mouse support
