@@ -41,4 +41,8 @@ luac.out
 
 tmp/
 *~
-lazy-lock.json
+
+# tool caches
+.mypy_cache/
+.ruff_cache/
+__pycache__/
