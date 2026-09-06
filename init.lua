@@ -1,10 +1,8 @@
-require("core")
-require("core.keymaps")
+-- Entry point. Leader must be set before lazy.nvim loads any plugin that maps keys.
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-if vim.g.vscode then
-  -- VSCode extension
-else
-  -- ordinary Neovim
-  require("core.lazy")
-  require("plugins")
-end
+require("config.options")
+require("config.lazy")
+require("config.keymaps")
+require("config.autocmds")
