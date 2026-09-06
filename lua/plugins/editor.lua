@@ -162,13 +162,13 @@ return {
   },
 
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     enabled = true,
     event = "InsertEnter",
     opts = {},
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     enabled = true,
     keys = { { "gs", mode = { "n", "x" }, desc = "Surround" } },
     opts = {
