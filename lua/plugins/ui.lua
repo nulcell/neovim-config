@@ -216,7 +216,7 @@ return {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = true,
+    enabled = false, -- crashes nvim-treesitter's injection query predicates on this nvim build; see ui.lua
     ft = { "markdown" },
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {},
