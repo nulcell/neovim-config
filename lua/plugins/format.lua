@@ -88,10 +88,8 @@ return {
       local lint = require("lint")
 
       -- sqlfluff will not run without a dialect; a project .sqlfluff overrides it.
-      lint.linters.sqlfluff.args = vim.list_extend(
-        vim.deepcopy(lint.linters.sqlfluff.args or {}),
-        { "--dialect", "ansi" }
-      )
+      -- Runs once at startup, so mutating the default table in place is fine.
+      vim.list_extend(lint.linters.sqlfluff.args, { "--dialect", "ansi" })
 
       lint.linters_by_ft = {
         -- mypy overlaps with basedpyright's in-editor checking, but it is what
@@ -121,9 +119,7 @@ return {
 
       vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost", "InsertLeave" }, {
         group = vim.api.nvim_create_augroup("cfg_lint", { clear = true }),
-        callback = function()
-          vim.defer_fn(try_lint, 100)
-        end,
+        callback = try_lint,
       })
 
       vim.api.nvim_create_user_command("Lint", try_lint, { desc = "Run linters on this buffer" })

@@ -282,6 +282,8 @@ folds open by default.
 | `<leader>bb` | Switch to the last buffer |
 | `<leader>bd` | Close this buffer, keeping the window layout |
 | `<leader>bo` | Close every other buffer |
+| `<leader>bp` | Pin this buffer to the tab bar |
+| `<leader>br` / `<leader>bh` | Close buffers to the right / left |
 | `<C-h/j/k/l>` | Move between windows (works from a terminal too) |
 | `<C-arrows>` | Resize the current window |
 | `<leader>-` / `<leader>\|` | Split below / right |
@@ -458,6 +460,7 @@ A few notes on the Python setup, since it's the one with the most moving parts:
 | gitsigns | Hunks in the gutter, staging, inline blame |
 | diffview | Side-by-side diffs and file history |
 | lualine | Statusline |
+| bufferline | VSCode-style buffer tabs, with diagnostic counts |
 | flash.nvim | Two-character jumps to anywhere on screen |
 | mini.pairs, mini.surround | Auto-pairs and surround operations |
 | persistence.nvim | Per-directory sessions |

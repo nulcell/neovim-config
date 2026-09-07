@@ -155,4 +155,29 @@ return {
       extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix" },
     },
   },
+
+  -- VSCode-style buffer tabs along the top.
+  {
+    "akinsho/bufferline.nvim",
+    enabled = true,
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      options = {
+        diagnostics = "nvim_lsp", -- error/warn counts per tab
+        diagnostics_indicator = function(_, _, diag)
+          return (diag.error and " " .. diag.error or "") .. (diag.warning and " " .. diag.warning or "")
+        end,
+        always_show_bufferline = true,
+        offsets = {
+          { filetype = "NvimTree", text = "Explorer", highlight = "Directory", text_align = "left" },
+        },
+      },
+    },
+    keys = {
+      { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Pin buffer" },
+      { "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Delete buffers to the right" },
+      { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Delete buffers to the left" },
+    },
+  },
 }
