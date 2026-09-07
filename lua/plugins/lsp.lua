@@ -53,10 +53,20 @@ return {
     cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsUpdateSync", "MasonToolsClean" },
     opts = {
       ensure_installed = mason_tools,
-      run_on_start = true, -- first launch on a new machine downloads the whole toolchain
+      run_on_start = true,
       start_delay = 2000,
       debounce_hours = 24,
     },
+    -- mason-tool-installer triggers its own first-run install off a VimEnter
+    -- autocmd baked into its plugin/ file. That file only reaches the
+    -- runtimepath once this plugin lazy-loads (on VeryLazy), which is AFTER
+    -- VimEnter has already fired -- so the hook registers too late to ever
+    -- catch the event, and run_on_start silently never runs. Triggering it
+    -- by hand here is what actually makes the first-launch download happen.
+    config = function(_, opts)
+      require("mason-tool-installer").setup(opts)
+      require("mason-tool-installer").run_on_start()
+    end,
   },
 
   {
