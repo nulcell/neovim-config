@@ -23,7 +23,7 @@ return {
       local parsers = {
         "bash", "c", "css", "diff", "dockerfile", "git_config", "git_rebase",
         "gitcommit", "gitignore", "go", "gomod", "gosum", "gotmpl", "gowork",
-        "hcl", "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc",
+        "hcl", "html", "javascript", "jsdoc", "json", "lua", "luadoc",
         "make", "markdown", "markdown_inline", "python", "query", "regex",
         "requirements", "sql", "ssh_config", "terraform", "toml", "tsx",
         "typescript", "vim", "vimdoc", "vue", "xml", "yaml",

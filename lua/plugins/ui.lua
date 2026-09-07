@@ -41,6 +41,7 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true }, -- drops treesitter/LSP above 1.5MB so huge logs still open
+      image = { enabled = false }, -- inline image/PDF/LaTeX rendering; needs kitty/wezterm + imagemagick, neither present
       quickfile = { enabled = true },
       indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
