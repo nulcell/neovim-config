@@ -1,63 +1,110 @@
 return {
-  -- Pinned to master. The default branch is now `main`, which needs the
-  -- separate `tree-sitter` CLI on PATH to compile parsers and has to be
-  -- wired up by hand. master compiles with a plain C compiler and takes
-  -- declarative config, which is the simpler trade until main stabilises.
+  -- nvim-treesitter `main` branch.
+  --
+  -- The `master` branch does NOT work on Neovim 0.12: its query predicates call
+  -- a treesitter API that 0.12 changed, which crashes on any buffer with
+  -- language injections (markdown fenced code blocks being the common one).
+  -- `main` is the branch that supports 0.11+, but it dropped the declarative
+  -- `configs.setup(opts)` entry point, so highlighting, indentation and parser
+  -- installation are wired up by hand below.
+  --
+  -- It compiles parsers with the `tree-sitter` CLI, which Mason installs. If it
+  -- is missing on a first launch you get one warning and parsers install on the
+  -- next start; `brew install tree-sitter` avoids that entirely.
   {
     "nvim-treesitter/nvim-treesitter",
     enabled = true,
-    branch = "master",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSUpdate", "TSInstall", "TSInstallInfo" },
-    dependencies = {
-      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "master" },
-    },
-    main = "nvim-treesitter.configs",
-    opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
-      auto_install = true, -- a new filetype installs its parser on first open
-      -- The csv/tsv parser tarballs are currently broken upstream, and csvview
-      -- does its own parsing, so keep auto_install from retrying on every open.
-      ignore_install = { "csv", "tsv" },
-      ensure_installed = {
-        "bash", "c", "css", "diff", "dockerfile", "git_config", "gitcommit",
-        "gitignore", "go", "gomod", "gosum", "gotmpl", "gowork", "hcl", "html",
-        "javascript", "json", "jsonc", "lua", "luadoc", "make", "markdown",
-        "markdown_inline", "python", "query", "regex", "sql", "terraform",
-        "toml", "tsx", "typescript", "vim", "vimdoc", "vue", "yaml",
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          node_decremental = "<bs>",
-          scope_incremental = false,
-        },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
-            ["ac"] = "@class.outer",
-            ["ic"] = "@class.inner",
-            ["aa"] = "@parameter.outer",
-            ["ia"] = "@parameter.inner",
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true,
-          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
-          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
-        },
-      },
-    },
+    config = function()
+      require("nvim-treesitter").setup()
+
+      local parsers = {
+        "bash", "c", "css", "diff", "dockerfile", "git_config", "git_rebase",
+        "gitcommit", "gitignore", "go", "gomod", "gosum", "gotmpl", "gowork",
+        "hcl", "html", "javascript", "jsdoc", "json", "jsonc", "lua", "luadoc",
+        "make", "markdown", "markdown_inline", "python", "query", "regex",
+        "requirements", "sql", "ssh_config", "terraform", "toml", "tsx",
+        "typescript", "vim", "vimdoc", "vue", "xml", "yaml",
+      }
+
+      local installed = require("nvim-treesitter.config").get_installed("parsers")
+      local missing = vim.tbl_filter(function(p)
+        return not vim.tbl_contains(installed, p)
+      end, parsers)
+
+      if #missing > 0 then
+        if vim.fn.executable("tree-sitter") == 1 then
+          require("nvim-treesitter").install(missing)
+        else
+          vim.schedule(function()
+            vim.notify(
+              ("tree-sitter CLI not found, so %d parsers cannot be compiled.\n"):format(#missing)
+                .. "Mason is installing it; restart Neovim once it finishes.\n"
+                .. "To skip the wait: brew install tree-sitter",
+              vim.log.levels.WARN
+            )
+          end)
+        end
+      end
+
+      -- `main` does not start highlighting for you.
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("cfg_treesitter", { clear = true }),
+        callback = function(ev)
+          local lang = vim.treesitter.language.get_lang(vim.bo[ev.buf].filetype)
+          if not lang or not pcall(vim.treesitter.start, ev.buf, lang) then
+            return
+          end
+          -- Treesitter indent is better than the built-in for these; it is
+          -- still experimental upstream, so it is opt-in per filetype.
+          if vim.tbl_contains({ "python", "lua", "go", "yaml", "json", "html", "vue" }, vim.bo[ev.buf].filetype) then
+            vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    enabled = true,
+    branch = "main",
+    lazy = false, -- loaded with treesitter; a lazy dep here races the FileType autocmd
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("nvim-treesitter-textobjects").setup({
+        select = { lookahead = true },
+        move = { set_jumps = true },
+      })
+
+      local select = require("nvim-treesitter-textobjects.select")
+      for lhs, obj in pairs({
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+      }) do
+        vim.keymap.set({ "x", "o" }, lhs, function()
+          select.select_textobject(obj, "textobjects")
+        end, { desc = "Textobject " .. obj })
+      end
+
+      local move = require("nvim-treesitter-textobjects.move")
+      for lhs, spec in pairs({
+        ["]f"] = { "goto_next_start", "@function.outer" },
+        ["[f"] = { "goto_previous_start", "@function.outer" },
+        ["]c"] = { "goto_next_start", "@class.outer" },
+        ["[c"] = { "goto_previous_start", "@class.outer" },
+      }) do
+        vim.keymap.set({ "n", "x", "o" }, lhs, function()
+          move[spec[1]](spec[2], "textobjects")
+        end, { desc = "Move to " .. spec[2] })
+      end
+    end,
   },
 
   {

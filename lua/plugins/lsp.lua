@@ -29,6 +29,8 @@ local mason_tools = {
   "marksman",
   -- formatters
   "gofumpt", "goimports", "stylua", "shfmt", "prettier", "sqlfluff",
+  -- required by nvim-treesitter (main branch) to compile parsers
+  "tree-sitter-cli",
   -- linters
   "mypy", "golangci-lint", "shellcheck", "tflint", "yamllint", "markdownlint-cli2",
 }
