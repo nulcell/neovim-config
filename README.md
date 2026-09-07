@@ -201,18 +201,10 @@ Inline blame for the current line is on by default; `<leader>ub` toggles it.
 | `]e` / `[e` | Next / previous error |
 | `]w` / `[w` | Next / previous warning |
 
-### Test — `<leader>t`
+### Terminal — `<leader>t`
 
 | Key | Action |
 | --- | --- |
-| `<leader>tn` | Run the nearest test |
-| `<leader>tf` | Run every test in this file |
-| `<leader>ta` | Run the whole suite |
-| `<leader>tl` | Re-run the last test |
-| `<leader>ts` | Toggle the test summary sidebar |
-| `<leader>to` | Show output for the test under the cursor |
-| `<leader>tp` | Toggle the output panel |
-| `<leader>tS` | Stop the running test |
 | `<leader>tt` | Terminal in the current directory |
 
 ### AI — `<leader>a`
@@ -326,7 +318,6 @@ positions.
 | `<leader>us` | Spell check |
 | `<leader>ul` / `<leader>uL` | Line numbers / relative numbers |
 | `<leader>uc` | Conceal (raw markdown vs rendered) |
-| `<leader>um` | Markdown rendering |
 | `<leader>un` | Dismiss notifications |
 
 ### Editing and motion
@@ -405,9 +396,6 @@ file, `<leader>e` focus the file panel, `<leader>b` toggle the file panel,
 `[x` / `]x` previous / next conflict, `<leader>co` take ours, `<leader>ct` take
 theirs, `<leader>cb` take base, `g?` help.
 
-**Test summary** (`<leader>ts`) — `<CR>` run, `o` output, `i` expand,
-`m` mark, `M` run marked.
-
 **Lazygit** (`<leader>gg`) — its own program: `?` for keybindings, `q` to quit
 back to Neovim.
 
@@ -421,23 +409,23 @@ back to Neovim.
 
 Everything in this table installs itself through Mason.
 
-| Language | Server | Format | Lint | Test |
-| --- | --- | --- | --- | --- |
-| Python | basedpyright + ruff | ruff | mypy | pytest |
-| Go | gopls | goimports, gofumpt | golangci-lint | go test |
-| Terraform / HCL | terraform-ls | terraform fmt | tflint | — |
-| YAML | yaml-language-server | prettier | yamllint | — |
-| JSON / JSONC | json-lsp + SchemaStore | prettier | schema | — |
-| TOML | taplo | taplo | — | — |
-| Docker / Compose | dockerls, compose-ls | prettier | — | — |
-| Helm | helm-ls | — | — | — |
-| Bash / sh | bash-language-server | shfmt | shellcheck | — |
-| Lua | lua-language-server | stylua | — | — |
-| TypeScript / JS | vtsls | prettier | — | — |
-| Vue | vue-language-server | prettier | — | — |
-| SQL | — | sqlfluff | sqlfluff | — |
-| CSV / TSV | — | — | — | — |
-| Markdown | marksman | prettier | markdownlint | — |
+| Language | Server | Format | Lint |
+| --- | --- | --- | --- |
+| Python | basedpyright + ruff | ruff | mypy |
+| Go | gopls | goimports, gofumpt | golangci-lint |
+| Terraform / HCL | terraform-ls | terraform fmt | tflint |
+| YAML | yaml-language-server | prettier | yamllint |
+| JSON / JSONC | json-lsp + SchemaStore | prettier | schema |
+| TOML | taplo | taplo | — |
+| Docker / Compose | dockerls, compose-ls | prettier | — |
+| Helm | helm-ls | — | — |
+| Bash / sh | bash-language-server | shfmt | shellcheck |
+| Lua | lua-language-server | stylua | — |
+| TypeScript / JS | vtsls | prettier | — |
+| Vue | vue-language-server | prettier | — |
+| SQL | — | sqlfluff | sqlfluff |
+| CSV / TSV | — | — | — |
+| Markdown | marksman | prettier | markdownlint |
 
 A few notes on the Python setup, since it's the one with the most moving parts:
 
@@ -479,9 +467,7 @@ A few notes on the Python setup, since it's the one with the most moving parts:
 | mini.pairs, mini.surround | Auto-pairs and surround operations |
 | persistence.nvim | Per-directory sessions |
 | todo-comments | Highlights and indexes TODO/FIXME/HACK |
-| render-markdown | Renders markdown in the buffer |
 | nvim-colorizer | Shows colour values as colours |
-| neotest | Test runner for pytest and go test |
 | minuet-ai.nvim / copilot.lua | Inline AI completion (both off by default) |
 | claudecode.nvim | Claude Code in a split |
 | grug-far.nvim | Project-wide find and replace |
@@ -511,7 +497,6 @@ lua/plugins/
   completion.lua         blink.cmp and snippets
   format.lua             conform and nvim-lint
   git.lua                gitsigns and diffview
-  test.lua               test runner
   ai.lua                 inline AI completion and claude code
 after/lsp/<server>.lua   per-server settings (loaded after nvim-lspconfig's defaults,
                          so these always win)
@@ -556,8 +541,8 @@ from disk and from `lazy-lock.json`. Two caveats:
   shared by several plugins, so they stay until everything using them is off.
 
 Safe to switch off without knock-on effects: `bufferline`, `dropbar`,
-`render-markdown`, `nvim-colorizer`, `csvview`, `nvim-ufo`, `todo-comments`,
-`flash`, `mini.surround`, `persistence`, `neotest`, `diffview`.
+`nvim-colorizer`, `csvview`, `nvim-ufo`, `todo-comments`,
+`flash`, `mini.surround`, `persistence`, `diffview`.
 
 **After changing plugins** — `:Lazy sync`, then commit `lazy-lock.json` so every
 machine gets the same versions.
