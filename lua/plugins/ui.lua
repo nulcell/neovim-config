@@ -12,7 +12,6 @@ return {
       integrations = {
         blink_cmp = true,
         diffview = true,
-        dropbar = { enabled = true, color_mode = true },
         gitsigns = true,
         mason = true,
         native_lsp = { enabled = true, underlines = { errors = { "undercurl" }, warnings = { "undercurl" } } },
@@ -154,73 +153,6 @@ return {
         lualine_z = { { "location", padding = { left = 0, right = 1 } } },
       },
       extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix" },
-    },
-  },
-
-  {
-    "akinsho/bufferline.nvim",
-    enabled = true,
-    event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      options = {
-        diagnostics = "nvim_lsp", -- error/warn counts per tab, like VSCode
-        diagnostics_indicator = function(_, _, diag)
-          return (diag.error and " " .. diag.error or "") .. (diag.warning and " " .. diag.warning or "")
-        end,
-        always_show_bufferline = false,
-        offsets = {
-          { filetype = "NvimTree", text = "Explorer", highlight = "Directory", text_align = "left" },
-        },
-      },
-    },
-    keys = {
-      { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Pin buffer" },
-      { "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Delete buffers to the right" },
-      { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Delete buffers to the left" },
-    },
-  },
-
-  -- Clickable winbar breadcrumbs. Replaces barbecue + nvim-navic.
-  {
-    "Bekaboo/dropbar.nvim",
-    enabled = true,
-    event = "VeryLazy",
-    keys = {
-      { "<leader>cp", function() require("dropbar.api").pick() end, desc = "Pick breadcrumb" },
-    },
-  },
-
-  {
-    "folke/todo-comments.nvim",
-    enabled = true,
-    event = { "BufReadPost", "BufNewFile" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = { signs = false },
-    keys = {
-      { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo list" },
-      { "<leader>ft", "<cmd>TodoTelescope<cr>", desc = "Find todos" },
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Prev todo" },
-    },
-  },
-
-  -- Maintained fork; the norcalli original is abandoned.
-  {
-    "catgoose/nvim-colorizer.lua",
-    enabled = true,
-    ft = { "css", "scss", "html", "javascript", "typescript", "vue", "lua", "conf", "yaml" },
-    opts = { user_default_options = { names = false, tailwind = true } },
-  },
-
-  {
-    "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false, -- crashes nvim-treesitter's injection query predicates on this nvim build; see ui.lua
-    ft = { "markdown" },
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-    opts = {},
-    keys = {
-      { "<leader>um", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle markdown render" },
     },
   },
 }

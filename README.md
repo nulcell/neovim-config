@@ -130,7 +130,6 @@ the offline copy rather than the only copy.
 | `<leader>fs` | Document symbols |
 | `<leader>fS` | Workspace symbols |
 | `<leader>fd` | Diagnostics |
-| `<leader>ft` | TODO comments |
 | `<leader>fh` | Help pages |
 | `<leader>fk` | Keymaps |
 | `<leader>fc` | Commands |
@@ -182,7 +181,6 @@ Inline blame for the current line is on by default; `<leader>ub` toggles it.
 | `<leader>cs` | Document symbols |
 | `<leader>cd` | Show diagnostics for this line |
 | `<leader>cR` | Rename the file, updating imports |
-| `<leader>cp` | Jump via the breadcrumb bar |
 | `<leader>cm` | Open Mason |
 | `]]` / `[[` | Next / previous reference to the symbol under the cursor |
 
@@ -247,8 +245,7 @@ breaks anything.
 
 Bigger models are a one-line change in `lua/plugins/ai.lua` — `qwen2.5-coder:3b`
 (~2GB, better) or `:7b` (~4.7GB, best, wants 16GB+ RAM). The file lists the
-options. **GitHub Copilot** is also wired up there behind `enabled = false` if
-you'd rather use that; enable one or the other, not both.
+options.
 
 Claude Code cannot drive ghost text — `claude -p` takes 8-26s per request
 because it starts a full agent session each time. It's for generation, not
@@ -268,12 +265,14 @@ apply. This is the equivalent of VSCode's Ctrl+Shift+H.
 
 ### Folding
 
+Native Neovim folding driven by treesitter (`lua/config/options.lua`), all
+folds open by default.
+
 | Key | Action |
 | --- | --- |
 | `zR` / `zM` | Open / close all folds |
 | `zr` / `zm` | Open / close one fold level |
 | `za` | Toggle the fold under the cursor |
-| `zK` | Peek at the folded lines without opening |
 
 ### Buffers, windows and files
 
@@ -283,8 +282,6 @@ apply. This is the equivalent of VSCode's Ctrl+Shift+H.
 | `<leader>bb` | Switch to the last buffer |
 | `<leader>bd` | Close this buffer, keeping the window layout |
 | `<leader>bo` | Close every other buffer |
-| `<leader>bp` | Pin this buffer to the tab bar |
-| `<leader>br` / `<leader>bh` | Close buffers to the right / left |
 | `<C-h/j/k/l>` | Move between windows (works from a terminal too) |
 | `<C-arrows>` | Resize the current window |
 | `<leader>-` / `<leader>\|` | Split below / right |
@@ -365,7 +362,7 @@ positions.
 | `:DiffviewFileHistory` | Browse the history of a file or the branch |
 | `:ClaudeCode` | Claude Code in a split |
 | `:GrugFar` | Project-wide find and replace |
-| `:Minuet` / `:Copilot` | Inline AI completion, once you enable one |
+| `:Minuet` | Inline AI completion |
 | `:TSUpdate` | Update treesitter parsers |
 | `:Inspect` | What highlight groups apply at the cursor |
 | `:InspectTree` | Live treesitter syntax tree for this buffer |
@@ -461,18 +458,12 @@ A few notes on the Python setup, since it's the one with the most moving parts:
 | gitsigns | Hunks in the gutter, staging, inline blame |
 | diffview | Side-by-side diffs and file history |
 | lualine | Statusline |
-| bufferline | Buffer tabs with diagnostic counts |
-| dropbar | Clickable breadcrumbs in the winbar |
 | flash.nvim | Two-character jumps to anywhere on screen |
 | mini.pairs, mini.surround | Auto-pairs and surround operations |
 | persistence.nvim | Per-directory sessions |
-| todo-comments | Highlights and indexes TODO/FIXME/HACK |
-| nvim-colorizer | Shows colour values as colours |
-| minuet-ai.nvim / copilot.lua | Inline AI completion (both off by default) |
+| minuet-ai.nvim | Inline AI completion via local Ollama, off by default |
 | claudecode.nvim | Claude Code in a split |
 | grug-far.nvim | Project-wide find and replace |
-| nvim-ufo | LSP- and treesitter-aware folding |
-| csvview.nvim | Aligns and colours CSV columns |
 
 Deliberately **not** here: a commenting plugin (Neovim has `gc` built in), an
 Error Lens plugin (`vim.diagnostic` renders inline messages natively), a
@@ -525,7 +516,7 @@ write what differs.
 
 ```lua
 {
-  "akinsho/bufferline.nvim",
+  "lewis6991/gitsigns.nvim",
   enabled = true,        -- flip to false, then :Lazy sync
   ...
 }
@@ -540,9 +531,8 @@ from disk and from `lazy-lock.json`. Two caveats:
   if you disable its own spec — `plenary.nvim` and `nvim-web-devicons` are
   shared by several plugins, so they stay until everything using them is off.
 
-Safe to switch off without knock-on effects: `bufferline`, `dropbar`,
-`nvim-colorizer`, `csvview`, `nvim-ufo`, `todo-comments`,
-`flash`, `mini.surround`, `persistence`, `diffview`.
+Safe to switch off without knock-on effects: `flash`, `mini.surround`,
+`persistence`, `diffview`.
 
 **After changing plugins** — `:Lazy sync`, then commit `lazy-lock.json` so every
 machine gets the same versions.

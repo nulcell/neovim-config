@@ -66,8 +66,10 @@ opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "fold
 opt.completeopt = "menu,menuone,noselect"
 opt.pumheight = 12
 
--- Folding is owned by nvim-ufo (see lua/plugins/editor.lua), which sets
--- foldmethod/foldexpr itself; setting them here would fight it.
+-- Folding via native treesitter, all folds open by default.
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel = 99
 
 -- Markdown
 opt.conceallevel = 2
