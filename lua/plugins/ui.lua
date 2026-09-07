@@ -120,7 +120,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
-        theme = "catppuccin",
+        theme = "catppuccin-macchiato",
         globalstatus = true,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
@@ -153,7 +153,7 @@ return {
         lualine_y = { { "progress", separator = " ", padding = { left = 1, right = 0 } } },
         lualine_z = { { "location", padding = { left = 0, right = 1 } } },
       },
-      extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix", "neotest" },
+      extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix", "nvim-dap-ui" },
     },
   },
 
