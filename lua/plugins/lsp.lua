@@ -117,7 +117,7 @@ return {
           end
           -- 0.12: render LSP-reported colours (CSS, Tailwind) directly.
           if client:supports_method("textDocument/documentColor") and vim.lsp.document_color then
-            vim.lsp.document_color.enable(true, ev.buf)
+            vim.lsp.document_color.enable(true, { bufnr = ev.buf })
           end
         end,
       })
