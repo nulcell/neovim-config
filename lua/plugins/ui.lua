@@ -18,7 +18,6 @@ return {
         native_lsp = { enabled = true, underlines = { errors = { "undercurl" }, warnings = { "undercurl" } } },
         mini = { enabled = true },
         nvimtree = true,
-        render_markdown = true,
         snacks = true,
         telescope = { enabled = true },
         treesitter = true,
@@ -41,6 +40,7 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true }, -- drops treesitter/LSP above 1.5MB so huge logs still open
+      image = { enabled = false }, -- inline image/PDF/LaTeX rendering; needs kitty/wezterm + imagemagick, neither present
       quickfile = { enabled = true },
       indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
@@ -99,7 +99,7 @@ return {
         { "<leader>g", group = "git" },
         { "<leader>q", group = "session/quit" },
         { "<leader>s", group = "search/replace" },
-        { "<leader>t", group = "terminal/test" },
+        { "<leader>t", group = "terminal" },
         { "<leader>u", group = "toggle" },
         { "<leader>w", group = "window" },
         { "<leader>x", group = "diagnostics" },
@@ -120,7 +120,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
-        theme = "catppuccin",
+        theme = "catppuccin-macchiato",
         globalstatus = true,
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
@@ -153,7 +153,7 @@ return {
         lualine_y = { { "progress", separator = " ", padding = { left = 1, right = 0 } } },
         lualine_z = { { "location", padding = { left = 0, right = 1 } } },
       },
-      extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix", "neotest" },
+      extensions = { "lazy", "mason", "nvim-tree", "trouble", "quickfix" },
     },
   },
 
@@ -215,7 +215,7 @@ return {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = true,
+    enabled = false, -- crashes nvim-treesitter's injection query predicates on this nvim build; see ui.lua
     ft = { "markdown" },
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {},

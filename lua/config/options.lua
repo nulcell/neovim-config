@@ -76,6 +76,14 @@ if vim.fn.has("nvim-0.12") == 1 then
   opt.pumborder = "rounded"
 end
 
+-- Put Mason's binaries on PATH immediately. mason.nvim does this itself, but
+-- only once it loads, which is too late for anything needed during startup --
+-- the tree-sitter CLI that compiles parsers being the case that bites.
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+if vim.uv.fs_stat(mason_bin) and not vim.env.PATH:find(mason_bin, 1, true) then
+  vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
+end
+
 vim.g.have_nerd_font = true
 vim.o.guifont = "FiraMono Nerd Font:h13"
 
