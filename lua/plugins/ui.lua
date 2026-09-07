@@ -75,6 +75,7 @@ return {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle scratch buffer" },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete buffer (keep layout)" },
       { "<leader>bo", function() Snacks.bufdelete.other() end, desc = "Delete other buffers" },
+      { "<leader>ba", function() Snacks.bufdelete.all() end, desc = "Delete all buffers" },
       { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename file (LSP-aware)" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss notifications" },
       { "<leader>fn", function() Snacks.notifier.show_history() end, desc = "Notification history" },
@@ -175,6 +176,7 @@ return {
       },
     },
     keys = {
+      { "<leader>bg", "<cmd>BufferLinePick<cr>", desc = "Go to buffer (pick)" },
       { "<leader>bp", "<cmd>BufferLineTogglePin<cr>", desc = "Pin buffer" },
       { "<leader>br", "<cmd>BufferLineCloseRight<cr>", desc = "Delete buffers to the right" },
       { "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", desc = "Delete buffers to the left" },

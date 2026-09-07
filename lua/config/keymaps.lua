@@ -45,6 +45,19 @@ map("n", "<leader>-", "<C-w>s", "Split window below")
 map("n", "<leader>|", "<C-w>v", "Split window right")
 map("n", "<leader>wd", "<C-w>c", "Close window")
 
+-- ponytail: single flag, not per-tabpage state; desyncs if you zoom in one
+-- tab then switch tabs. Upgrade to a per-tabpage table if that bites.
+local zoomed = false
+map("n", "<leader>wm", function()
+  if zoomed then
+    vim.cmd("wincmd =")
+  else
+    vim.cmd("wincmd _")
+    vim.cmd("wincmd |")
+  end
+  zoomed = not zoomed
+end, "Maximize/restore window")
+
 -- Buffers
 map("n", "<S-h>", "<cmd>bprevious<cr>", "Prev buffer")
 map("n", "<S-l>", "<cmd>bnext<cr>", "Next buffer")

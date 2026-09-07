@@ -87,6 +87,8 @@ return {
         ["ic"] = "@class.inner",
         ["aa"] = "@parameter.outer",
         ["ia"] = "@parameter.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
       }) do
         vim.keymap.set({ "x", "o" }, lhs, function()
           select.select_textobject(obj, "textobjects")
