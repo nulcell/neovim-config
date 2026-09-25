@@ -11,7 +11,7 @@
 ```sh
 brew install neovim git lazygit ripgrep fd fzf tree-sitter
 git clone https://github.com/nulcell/neovim-config ~/.config/nvim
-nvim   # plugins and Mason tools install on first launch; then run :LazyHealth
+nvim # plugins and Mason tools install on first launch; then run :LazyHealth
 ```
 
 ## Keymaps
@@ -24,14 +24,14 @@ Everything not listed here is a LazyVim default:
 
 Custom to this config:
 
-| Key | Mode | Does | Defined in |
-|---|---|---|---|
-| `;` | n, v | Enter command mode (same as `:`) | `lua/config/keymaps.lua` |
-| `<leader>am` | n | Toggle local AI inline completion | `lua/plugins/ai.lua` |
-| `<M-]>` / `<M-[>` | i | Request a suggestion, then cycle next / previous | `lua/plugins/ai.lua` |
-| `<M-y>` | i | Accept the suggestion | `lua/plugins/ai.lua` |
-| `<M-Y>` | i | Accept one line of the suggestion | `lua/plugins/ai.lua` |
-| `<M-e>` | i | Dismiss suggestion | `lua/plugins/ai.lua` |
+| Key               | Mode | Does                                             | Defined in               |
+| ----------------- | ---- | ------------------------------------------------ | ------------------------ |
+| `;`               | n, v | Enter command mode (same as `:`)                 | `lua/config/keymaps.lua` |
+| `<leader>am`      | n    | Toggle local AI inline completion                | `lua/plugins/ai.lua`     |
+| `<M-]>` / `<M-[>` | i    | Request a suggestion, then cycle next / previous | `lua/plugins/ai.lua`     |
+| `<M-y>`           | i    | Accept the suggestion                            | `lua/plugins/ai.lua`     |
+| `<M-Y>`           | i    | Accept one line of the suggestion                | `lua/plugins/ai.lua`     |
+| `<M-e>`           | i    | Dismiss suggestion                               | `lua/plugins/ai.lua`     |
 
 On macOS, `<M-…>` needs your terminal to send Option as Meta (iTerm2: Profiles → Keys → Left Option key: Esc+; Ghostty: `macos-option-as-alt = true`; kitty: `macos_option_as_alt yes`).
 
@@ -40,21 +40,26 @@ On macOS, `<M-…>` needs your terminal to send Option as Meta (iTerm2: Profiles
 Ghost-text code completion from a model running on your machine: free, private, works offline.
 
 1. Install and start Ollama:
+
    ```sh
    brew install ollama
-   brew services start ollama   # or run `ollama serve` in a terminal
+   brew services start ollama # or run `ollama serve` in a terminal
    ```
+
 2. Pull a code model that supports fill-in-the-middle:
+
    ```sh
    ollama pull qwen2.5-coder:3b
    ```
-   | Model | Size | Notes |
-   |---|---|---|
-   | `qwen2.5-coder:1.5b` | ~1 GB | Fastest |
-   | `qwen2.5-coder:3b` | ~2 GB | Better, still fast; the configured default |
-   | `qwen2.5-coder:7b` | ~4.7 GB | Best quality; wants 16 GB+ RAM |
+
+   | Model                | Size    | Notes                                      |
+   | -------------------- | ------- | ------------------------------------------ |
+   | `qwen2.5-coder:1.5b` | ~1 GB   | Fastest                                    |
+   | `qwen2.5-coder:3b`   | ~2 GB   | Better, still fast; the configured default |
+   | `qwen2.5-coder:7b`   | ~4.7 GB | Best quality; wants 16 GB+ RAM             |
 
    To use another, pull it and change `model` in `lua/plugins/ai.lua`. Chat models (llama3, mistral) give poor completions; stick to coder models.
+
 3. Check it's up: `curl http://localhost:11434/api/tags` should list the model.
 4. In insert mode, press `<M-]>` to request a suggestion, then `<M-y>` to accept it.
 
@@ -68,16 +73,16 @@ Plugin versions are pinned in `lazy-lock.json`, which lazy.nvim writes for you. 
 
 Run these inside Neovim from normal mode (press `Esc`, then type the command and press `Enter`), or open the plugin manager with `<leader>l` and use its keys:
 
-| Command | Key in `<leader>l` | What it does |
-|---|---|---|
-| `:Lazy update` | `U` | Updates plugins and rewrites `lazy-lock.json`. Commit the lockfile afterwards. |
-| `:Lazy restore` | `R` | Puts every plugin back to the version in `lazy-lock.json`. Use it after a bad update, or after pulling this repo on another machine. |
+| Command         | Key in `<leader>l` | What it does                                                                                                                         |
+| --------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `:Lazy update`  | `U`                | Updates plugins and rewrites `lazy-lock.json`. Commit the lockfile afterwards.                                                       |
+| `:Lazy restore` | `R`                | Puts every plugin back to the version in `lazy-lock.json`. Use it after a bad update, or after pulling this repo on another machine. |
 
 From a shell, without opening the editor:
 
 ```sh
-nvim --headless "+Lazy! update" +qa    # update
-nvim --headless "+Lazy! restore" +qa   # restore
+nvim --headless "+Lazy! update" +qa  # update
+nvim --headless "+Lazy! restore" +qa # restore
 ```
 
 After updating, commit from wherever Neovim actually reads its config (normally `~/.config/nvim`).
