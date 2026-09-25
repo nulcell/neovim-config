@@ -35,7 +35,7 @@ return {
           api_key = "TERM", -- Ollama needs no key; minuet just wants a set env var
           name = "Ollama",
           end_point = "http://localhost:11434/v1/completions",
-          model = "qwen2.5-coder:1.5b",
+          model = "qwen2.5-coder:3b",
           optional = { max_tokens = 128, top_p = 0.9 },
         },
       },
