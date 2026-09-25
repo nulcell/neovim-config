@@ -2,8 +2,7 @@
 # or .markdownlint-cli2.yaml. Rules: https://github.com/DavidAnson/markdownlint#rules--aliases
 config:
   default: true
-  MD013:
-    line_length: 120
+  MD013: false # disable line length
   MD024: false # duplicate headings
   MD036: false # emphasis used as heading
   MD040: false # fenced code language
