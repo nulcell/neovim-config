@@ -3,7 +3,8 @@
 -- Local ghost-text completion via Ollama (free, offline). One-time setup:
 --   brew install ollama && brew services start ollama
 --   ollama pull qwen2.5-coder:1.5b   -- or :3b / :7b for better quality
--- Manual trigger (<M-y>); flip AUTO_TRIGGER for Copilot-style auto suggestions.
+-- Manual: <M-]> requests a suggestion, <M-y> accepts. Setup and keys: README.md.
+-- Flip AUTO_TRIGGER for Copilot-style automatic suggestions.
 local AUTO_TRIGGER = false
 
 return {
