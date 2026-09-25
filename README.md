@@ -46,12 +46,12 @@ Ghost-text code completion from a model running on your machine: free, private, 
    ```
 2. Pull a code model that supports fill-in-the-middle:
    ```sh
-   ollama pull qwen2.5-coder:1.5b
+   ollama pull qwen2.5-coder:3b
    ```
    | Model | Size | Notes |
    |---|---|---|
-   | `qwen2.5-coder:1.5b` | ~1 GB | Fastest; the configured default |
-   | `qwen2.5-coder:3b` | ~2 GB | Noticeably better, still fast |
+   | `qwen2.5-coder:1.5b` | ~1 GB | Fastest |
+   | `qwen2.5-coder:3b` | ~2 GB | Better, still fast; the configured default |
    | `qwen2.5-coder:7b` | ~4.7 GB | Best quality; wants 16 GB+ RAM |
 
    To use another, pull it and change `model` in `lua/plugins/ai.lua`. Chat models (llama3, mistral) give poor completions; stick to coder models.
@@ -64,11 +64,25 @@ If nothing appears: confirm Ollama is running (step 3), and check `:messages` fo
 
 ## Updating plugins
 
-`lazy-lock.json` is written by lazy.nvim, never by hand.
+Plugin versions are pinned in `lazy-lock.json`, which lazy.nvim writes for you. Don't edit it by hand.
 
-- `:Lazy update` updates plugins and rewrites the lockfile; commit it.
-- `:Lazy restore` rolls plugins back to the lockfile (bad update, or a fresh machine).
-- "Breaking Changes" in the update log just means a commit message has `!`; read it, it rarely affects you.
+Run these inside Neovim from normal mode (press `Esc`, then type the command and press `Enter`), or open the plugin manager with `<leader>l` and use its keys:
+
+| Command | Key in `<leader>l` | What it does |
+|---|---|---|
+| `:Lazy update` | `U` | Updates plugins and rewrites `lazy-lock.json`. Commit the lockfile afterwards. |
+| `:Lazy restore` | `R` | Puts every plugin back to the version in `lazy-lock.json`. Use it after a bad update, or after pulling this repo on another machine. |
+
+From a shell, without opening the editor:
+
+```sh
+nvim --headless "+Lazy! update" +qa    # update
+nvim --headless "+Lazy! restore" +qa   # restore
+```
+
+After updating, commit from wherever Neovim actually reads its config (normally `~/.config/nvim`).
+
+"Breaking Changes" in the update log only means a commit message is marked with `!`. Read it, but it rarely affects this config.
 
 ## Expected `:checkhealth` warnings
 
