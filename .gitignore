@@ -47,4 +47,3 @@ tmp/
 .ruff_cache/
 __pycache__/
 
-lazy-lock.json

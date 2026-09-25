@@ -1,8 +1,2 @@
--- Entry point. Leader must be set before lazy.nvim loads any plugin that maps keys.
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-require("config.options")
+-- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
-require("config.keymaps")
-require("config.autocmds")
