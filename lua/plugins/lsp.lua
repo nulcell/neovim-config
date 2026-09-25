@@ -7,6 +7,8 @@ return {
         basedpyright = { settings = { basedpyright = { analysis = { typeCheckingMode = "standard" } } } },
         -- ruff formats Python via LSP; a project pyproject.toml/ruff.toml still wins.
         ruff = { init_options = { settings = { lineLength = 120 } } },
+        -- Plain gofmt style if gopls ever formats (LSP fallback), same as conform below.
+        gopls = { settings = { gopls = { gofumpt = false } } },
         yamlls = {
           settings = {
             yaml = {
@@ -47,5 +49,12 @@ return {
     end,
   },
   { "mason-org/mason.nvim", opts = { ensure_installed = { "mypy" } } },
-  { "stevearc/conform.nvim", opts = { formatters = { prettier = { prepend_args = { "--print-width", "120" } } } } },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      -- goimports = gofmt + imports, matching golangci-lint's formatters; LazyVim adds stricter gofumpt.
+      formatters_by_ft = { go = { "goimports" } },
+      formatters = { prettier = { prepend_args = { "--print-width", "120" } } },
+    },
+  },
 }
